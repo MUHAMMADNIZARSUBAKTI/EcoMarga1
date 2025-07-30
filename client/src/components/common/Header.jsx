@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { ChevronDown, Menu, X, User, LogOut, Settings, BarChart3 } from 'lucide-react';
 
 const Header = () => {
   const location = useLocation();
@@ -41,11 +42,10 @@ const Header = () => {
 
   const adminNavLinks = [
     { path: '/dashboard', label: 'Dashboard', icon: '📊' },
-    { path: '/admin/users', label: 'Kelola User', icon: '👥' },
+    { path: '/admin/users', label: 'Users', icon: '👥' },
     { path: '/admin/transactions', label: 'Transaksi', icon: '💳' },
     { path: '/admin/bank-sampah', label: 'Bank Sampah', icon: '🏪' },
-    { path: '/admin/reports', label: 'Laporan', icon: '📈' },
-    { path: '/admin/settings', label: 'Pengaturan', icon: '⚙️' },
+    { path: '/admin/reports', label: 'Reports', icon: '📈' },
   ];
 
   // Determine which navigation to show
@@ -73,475 +73,641 @@ const Header = () => {
     navigate(path);
   };
 
-  // Inline styles
-  const styles = {
-    header: {
-      background: '#ffffff',
-      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-      padding: '1rem 0',
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-    },
-    container: {
-      maxWidth: '1200px',
-      margin: '0 auto',
-      padding: '0 1rem',
-    },
-    headerContent: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    logo: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      fontSize: '1.25rem',
-      fontWeight: 'bold',
-      color: '#10b981',
-      textDecoration: 'none',
-      transition: 'transform 0.2s ease',
-    },
-    logoIcon: {
-      fontSize: '1.5rem',
-    },
-    navDesktop: {
-      display: isMobile ? 'none' : 'flex',
-    },
-    navLinks: {
-      display: 'flex',
-      gap: user?.role === 'admin' ? '1.5rem' : '2rem',
-      listStyle: 'none',
-      margin: 0,
-      padding: 0,
-    },
-    navLink: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      color: '#1f2937',
-      textDecoration: 'none',
-      fontWeight: 500,
-      padding: '0.5rem 1rem',
-      borderRadius: '0.5rem',
-      transition: 'all 0.2s ease',
-      cursor: 'pointer',
-      border: 'none',
-      background: 'none',
-      outline: 'none',
-      boxShadow: 'none',
-      fontSize: user?.role === 'admin' ? '0.875rem' : '1rem',
-    },
-    navLinkActive: {
-      color: '#10b981',
-      backgroundColor: '#f3f4f6',
-    },
-    navIcon: {
-      fontSize: user?.role === 'admin' ? '0.875rem' : '1rem',
-    },
-    authSection: {
-      display: isMobile ? 'none' : 'flex',
-      alignItems: 'center',
-    },
-    authButtons: {
-      display: 'flex',
-      gap: '0.5rem',
-    },
-    btn: {
-      padding: '0.75rem 1.5rem',
-      border: 'none',
-      borderRadius: '0.5rem',
-      fontWeight: 500,
-      cursor: 'pointer',
-      transition: 'all 0.2s ease',
-      textDecoration: 'none',
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      fontSize: '0.875rem',
-    },
-    btnPrimary: {
-      backgroundColor: '#10b981',
-      color: 'white',
-    },
-    btnOutline: {
-      backgroundColor: 'transparent',
-      color: '#10b981',
-      border: '2px solid #10b981',
-    },
-    userMenuBtn: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      background: 'none',
-      border: 'none',
-      cursor: 'pointer',
-      padding: '0.5rem',
-      borderRadius: '0.5rem',
-      transition: 'background-color 0.2s',
-      outline: 'none',
-      boxShadow: 'none',
-    },
-    userAvatar: {
-      width: '32px',
-      height: '32px',
-      borderRadius: '50%',
-      backgroundColor: user?.role === 'admin' ? '#3b82f6' : '#10b981',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'white',
-      fontSize: '0.875rem',
-      fontWeight: 'bold',
-    },
-    userDropdown: {
-      position: 'absolute',
-      top: '100%',
-      right: 0,
-      marginTop: '0.5rem',
-      backgroundColor: 'white',
-      border: '1px solid #e5e7eb',
-      borderRadius: '0.5rem',
-      boxShadow: '0 10px 15px rgba(0, 0, 0, 0.1)',
-      minWidth: '200px',
-      zIndex: 1000,
-    },
-    dropdownHeader: {
-      padding: '0.75rem',
-      borderBottom: '1px solid #e5e7eb',
-      background: user?.role === 'admin' ? '#eff6ff' : '#f0fdf4',
-    },
-    dropdownItem: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      padding: '0.75rem',
-      textDecoration: 'none',
-      color: '#1f2937',
-      fontSize: '0.875rem',
-      transition: 'background-color 0.2s',
-      border: 'none',
-      background: 'none',
-      width: '100%',
-      cursor: 'pointer',
-      outline: 'none',
-      boxShadow: 'none',
-    },
-    dropdownItemLogout: {
-      color: '#ef4444',
-      borderTop: '1px solid #e5e7eb',
-    },
-    mobileMenuBtn: {
-      display: isMobile ? 'block' : 'none',
-      background: 'none',
-      border: 'none',
-      fontSize: '1.5rem',
-      cursor: 'pointer',
-      padding: '0.5rem',
-      color: '#1f2937',
-      outline: 'none',
-      boxShadow: 'none',
-    },
-    navMobile: {
-      display: isMobileMenuOpen ? 'block' : 'none',
-      position: 'absolute',
-      top: '100%',
-      left: 0,
-      right: 0,
-      background: '#ffffff',
-      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-      borderTop: '1px solid #e5e7eb',
-    },
-    mobileNavLinks: {
-      listStyle: 'none',
-      margin: 0,
-      padding: '1rem 0',
-    },
-    mobileNavLink: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.75rem',
-      color: '#1f2937',
-      textDecoration: 'none',
-      fontWeight: 500,
-      padding: '1rem 1.5rem',
-      transition: 'all 0.2s ease',
-      border: 'none',
-      background: 'none',
-      width: '100%',
-      textAlign: 'left',
-      cursor: 'pointer',
-      outline: 'none',
-      boxShadow: 'none',
-    },
-    mobileAuthDivider: {
-      borderTop: '1px solid #e5e7eb',
-      margin: '0.5rem 0',
-    },
-    adminBadge: {
-      background: '#3b82f6',
-      color: 'white',
-      padding: '0.25rem 0.5rem',
-      borderRadius: '0.25rem',
-      fontSize: '0.75rem',
-      fontWeight: '500',
-      marginLeft: '0.5rem',
-    },
-  };
-
   return (
-    <header style={styles.header}>
-      <div style={styles.container}>
-        <div style={styles.headerContent}>
-          {/* Logo */}
-          <Link 
-            to="/" 
-            style={styles.logo}
-            onClick={() => handleLinkClick('/')}
-          >
-            <span style={styles.logoIcon}>🌱</span>
-            <span className="logo-text">EcoMarga</span>
-            {user?.role === 'admin' && (
-              <span style={styles.adminBadge}>Admin</span>
-            )}
-          </Link>
-          
-          {/* Desktop Navigation */}
-          <nav style={styles.navDesktop}>
-            <ul style={styles.navLinks}>
-              {navLinks.map(link => (
-                <li key={link.path}>
-                  <button
-                    onClick={() => handleLinkClick(link.path)}
-                    style={{
-                      ...styles.navLink,
-                      ...(location.pathname === link.path ? styles.navLinkActive : {})
-                    }}
-                    onMouseEnter={(e) => {
-                      if (location.pathname !== link.path) {
-                        e.target.style.color = '#10b981';
-                        e.target.style.backgroundColor = '#f3f4f6';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (location.pathname !== link.path) {
-                        e.target.style.color = '#1f2937';
-                        e.target.style.backgroundColor = 'transparent';
-                      }
-                    }}
-                  >
-                    <span style={styles.navIcon}>{link.icon}</span>
-                    <span>{link.label}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          
-          {/* Auth Section */}
-          <div style={styles.authSection}>
-            {isAuthenticated ? (
-              /* User Menu */
-              <div style={{position: 'relative'}}>
-                <button 
-                  style={styles.userMenuBtn}
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  onMouseEnter={(e) => e.target.style.backgroundColor = '#f3f4f6'}
-                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-                >
-                  <div style={styles.userAvatar}>
-                    {user?.name?.charAt(0)?.toUpperCase() || 'U'}
-                  </div>
-                  <span style={{fontSize: '0.875rem', fontWeight: '500'}}>
-                    {user?.name || 'User'}
+    <>
+      <header style={{
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(16, 185, 129, 0.1)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        transition: 'all 0.3s ease'
+      }}>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '0 1rem'
+        }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            height: '70px'
+          }}>
+            
+            {/* Logo - Enhanced */}
+            <Link 
+              to="/" 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease'
+              }}
+              onClick={() => handleLinkClick('/')}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            >
+              {/* Logo Icon with gradient background */}
+              <div style={{
+                width: '45px',
+                height: '45px',
+                background: 'linear-gradient(135deg, #10b981, #059669)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)',
+                transition: 'all 0.3s ease'
+              }}>
+                🌱
+              </div>
+              
+              {/* Logo Text */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start'
+              }}>
+                <span style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                  background: 'linear-gradient(135deg, #10b981, #059669)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  lineHeight: 1
+                }}>
+                  EcoMarga
+                </span>
+                {user?.role === 'admin' && (
+                  <span style={{
+                    fontSize: '0.625rem',
+                    backgroundColor: '#3b82f6',
+                    color: 'white',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    fontWeight: '500',
+                    marginTop: '2px'
+                  }}>
+                    ADMIN
                   </span>
-                  <span style={{fontSize: '0.75rem'}}>▼</span>
-                </button>
-
-                {/* Dropdown Menu */}
-                {isUserMenuOpen && (
-                  <div style={styles.userDropdown}>
-                    <div style={styles.dropdownHeader}>
-                      <div style={{fontWeight: '500', fontSize: '0.875rem'}}>
-                        {user?.name}
-                        {user?.role === 'admin' && (
-                          <span style={{
-                            ...styles.adminBadge,
-                            marginLeft: '0.5rem',
-                            fontSize: '0.625rem'
-                          }}>
-                            Administrator
-                          </span>
-                        )}
-                      </div>
-                      <div style={{fontSize: '0.75rem', color: '#6b7280'}}>
-                        {user?.email}
-                      </div>
-                    </div>
-                    
-                    <button
-                      onClick={() => handleLinkClick('/profile')}
-                      style={styles.dropdownItem}
-                      onMouseEnter={(e) => e.target.style.backgroundColor = '#f3f4f6'}
-                      onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-                    >
-                      👤 Profil Saya
-                    </button>
-                    
-                    {user?.role === 'admin' && (
-                      <button
-                        onClick={() => handleLinkClick('/admin/settings')}
-                        style={styles.dropdownItem}
-                        onMouseEnter={(e) => e.target.style.backgroundColor = '#f3f4f6'}
-                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-                      >
-                        ⚙️ Pengaturan Sistem
-                      </button>
-                    )}
-                    
-                    <button
-                      onClick={handleLogout}
-                      style={{...styles.dropdownItem, ...styles.dropdownItemLogout}}
-                      onMouseEnter={(e) => e.target.style.backgroundColor = '#f3f4f6'}
-                      onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-                    >
-                      🚪 Logout
-                    </button>
-                  </div>
                 )}
               </div>
-            ) : (
-              /* Auth Buttons for non-authenticated users */
-              <div style={styles.authButtons}>
-                <button
-                  onClick={() => handleLinkClick('/login')}
-                  style={{...styles.btn, ...styles.btnOutline}}
-                  onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#10b981';
-                    e.target.style.color = 'white';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = 'transparent';
-                    e.target.style.color = '#10b981';
-                  }}
-                >
-                  🔐 Masuk
-                </button>
-                <button
-                  onClick={() => handleLinkClick('/register')}
-                  style={{...styles.btn, ...styles.btnPrimary}}
-                  onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#059669';
-                    e.target.style.transform = 'translateY(-1px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = '#10b981';
-                    e.target.style.transform = 'translateY(0)';
-                  }}
-                >
-                  ✨ Daftar
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button 
-            style={styles.mobileMenuBtn}
-            onClick={toggleMobileMenu}
-            aria-label="Toggle mobile menu"
-          >
-            <span>☰</span>
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        <div style={styles.navMobile}>
-          <ul style={styles.mobileNavLinks}>
-            {navLinks.map(link => (
-              <li key={link.path}>
-                <button
+            </Link>
+            
+            {/* Desktop Navigation - Enhanced */}
+            <nav style={{
+              display: isMobile ? 'none' : 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              {navLinks.map(link => (
+                <Link
+                  key={link.path}
+                  to={link.path}
                   onClick={() => handleLinkClick(link.path)}
                   style={{
-                    ...styles.mobileNavLink,
-                    ...(location.pathname === link.path ? {
-                      color: '#10b981',
-                      backgroundColor: '#f3f4f6'
-                    } : {})
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '12px',
+                    textDecoration: 'none',
+                    fontWeight: '500',
+                    fontSize: '0.875rem',
+                    color: location.pathname === link.path ? '#10b981' : '#374151',
+                    backgroundColor: location.pathname === link.path ? 'rgba(16, 185, 129, 0.1)' : 'transparent',
+                    border: location.pathname === link.path ? '1px solid rgba(16, 185, 129, 0.2)' : '1px solid transparent',
+                    transition: 'all 0.3s ease',
+                    position: 'relative'
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.color = '#10b981';
-                    e.target.style.backgroundColor = '#f3f4f6';
+                    if (location.pathname !== link.path) {
+                      e.target.style.backgroundColor = 'rgba(16, 185, 129, 0.05)';
+                      e.target.style.color = '#10b981';
+                      e.target.style.transform = 'translateY(-1px)';
+                    }
                   }}
                   onMouseLeave={(e) => {
                     if (location.pathname !== link.path) {
-                      e.target.style.color = '#1f2937';
                       e.target.style.backgroundColor = 'transparent';
+                      e.target.style.color = '#374151';
+                      e.target.style.transform = 'translateY(0)';
                     }
                   }}
                 >
-                  <span>{link.icon}</span>
+                  <span style={{ fontSize: '1rem' }}>{link.icon}</span>
                   <span>{link.label}</span>
-                </button>
-              </li>
-            ))}
-            
-            {/* Mobile Auth Section */}
-            <li style={styles.mobileAuthDivider}></li>
-            
-            {isAuthenticated ? (
-              <>
-                <li>
-                  <button
-                    onClick={() => handleLinkClick('/profile')}
-                    style={styles.mobileNavLink}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Auth Section - Enhanced */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem'
+            }}>
+              
+              {isAuthenticated ? (
+                /* User Menu - Enhanced */
+                <div style={{ position: 'relative' }}>
+                  <button 
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      backgroundColor: 'transparent',
+                      border: '1px solid rgba(16, 185, 129, 0.2)',
+                      borderRadius: '12px',
+                      padding: '0.5rem 1rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      outline: 'none'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = 'rgba(16, 185, 129, 0.05)';
+                      e.target.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = 'transparent';
+                      e.target.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+                    }}
                   >
-                    👤 Profil ({user?.name})
-                    {user?.role === 'admin' && (
-                      <span style={{
-                        ...styles.adminBadge,
-                        marginLeft: '0.5rem',
-                        fontSize: '0.625rem'
+                    {/* User Avatar */}
+                    <div style={{
+                      width: '35px',
+                      height: '35px',
+                      borderRadius: '10px',
+                      background: user?.role === 'admin' 
+                        ? 'linear-gradient(135deg, #3b82f6, #1d4ed8)' 
+                        : 'linear-gradient(135deg, #10b981, #059669)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'white',
+                      fontSize: '0.875rem',
+                      fontWeight: 'bold',
+                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+                    }}>
+                      {user?.name?.charAt(0)?.toUpperCase() || user?.nama?.charAt(0)?.toUpperCase() || 'U'}
+                    </div>
+                    
+                    {/* User Info - Desktop Only */}
+                    {!isMobile && (
+                      <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        textAlign: 'left'
                       }}>
-                        Admin
-                      </span>
+                        <span style={{
+                          fontSize: '0.875rem',
+                          fontWeight: '600',
+                          color: '#1f2937',
+                          lineHeight: 1
+                        }}>
+                          {user?.name || user?.nama || 'User'}
+                        </span>
+                        <span style={{
+                          fontSize: '0.75rem',
+                          color: '#6b7280',
+                          lineHeight: 1
+                        }}>
+                          {user?.role === 'admin' ? 'Administrator' : 'Member'}
+                        </span>
+                      </div>
                     )}
+                    
+                    <ChevronDown 
+                      size={16} 
+                      style={{
+                        color: '#6b7280',
+                        transform: isUserMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.3s ease'
+                      }} 
+                    />
                   </button>
-                </li>
-                <li>
-                  <button
-                    onClick={handleLogout}
-                    style={{...styles.mobileNavLink, color: '#ef4444'}}
-                  >
-                    🚪 Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <button
-                    onClick={() => handleLinkClick('/login')}
-                    style={styles.mobileNavLink}
+
+                  {/* Enhanced Dropdown Menu */}
+                  {isUserMenuOpen && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: '0.5rem',
+                      backgroundColor: 'white',
+                      borderRadius: '16px',
+                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+                      border: '1px solid rgba(16, 185, 129, 0.1)',
+                      minWidth: '240px',
+                      zIndex: 1000,
+                      overflow: 'hidden',
+                      backdropFilter: 'blur(20px)'
+                    }}>
+                      
+                      {/* Dropdown Header */}
+                      <div style={{
+                        padding: '1rem',
+                        borderBottom: '1px solid rgba(16, 185, 129, 0.1)',
+                        background: user?.role === 'admin' 
+                          ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(29, 78, 216, 0.05))'
+                          : 'linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.05))'
+                      }}>
+                        <div style={{
+                          fontWeight: '600', 
+                          fontSize: '0.875rem',
+                          color: '#1f2937',
+                          marginBottom: '0.25rem'
+                        }}>
+                          {user?.name || user?.nama}
+                        </div>
+                        <div style={{
+                          fontSize: '0.75rem', 
+                          color: '#6b7280'
+                        }}>
+                          {user?.email}
+                        </div>
+                      </div>
+                      
+                      {/* Menu Items */}
+                      <div style={{ padding: '0.5rem 0' }}>
+                        <button
+                          onClick={() => handleLinkClick('/profile')}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.75rem',
+                            padding: '0.75rem 1rem',
+                            width: '100%',
+                            backgroundColor: 'transparent',
+                            border: 'none',
+                            textAlign: 'left',
+                            cursor: 'pointer',
+                            fontSize: '0.875rem',
+                            color: '#374151',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.backgroundColor = 'rgba(16, 185, 129, 0.05)';
+                            e.target.style.color = '#10b981';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = 'transparent';
+                            e.target.style.color = '#374151';
+                          }}
+                        >
+                          <User size={16} />
+                          Profil Saya
+                        </button>
+                        
+                        {user?.role === 'admin' && (
+                          <button
+                            onClick={() => handleLinkClick('/admin/settings')}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.75rem',
+                              padding: '0.75rem 1rem',
+                              width: '100%',
+                              backgroundColor: 'transparent',
+                              border: 'none',
+                              textAlign: 'left',
+                              cursor: 'pointer',
+                              fontSize: '0.875rem',
+                              color: '#374151',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.target.style.backgroundColor = 'rgba(59, 130, 246, 0.05)';
+                              e.target.style.color = '#3b82f6';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.target.style.backgroundColor = 'transparent';
+                              e.target.style.color = '#374151';
+                            }}
+                          >
+                            <Settings size={16} />
+                            Admin Settings
+                          </button>
+                        )}
+                        
+                        <div style={{
+                          height: '1px',
+                          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                          margin: '0.5rem 1rem'
+                        }}></div>
+                        
+                        <button
+                          onClick={handleLogout}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.75rem',
+                            padding: '0.75rem 1rem',
+                            width: '100%',
+                            backgroundColor: 'transparent',
+                            border: 'none',
+                            textAlign: 'left',
+                            cursor: 'pointer',
+                            fontSize: '0.875rem',
+                            color: '#ef4444',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.05)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = 'transparent';
+                          }}
+                        >
+                          <LogOut size={16} />
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* Auth Buttons for non-authenticated users */
+                <div style={{
+                  display: isMobile ? 'none' : 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem'
+                }}>
+                  <Link
+                    to="/login"
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '12px',
+                      textDecoration: 'none',
+                      fontWeight: '500',
+                      fontSize: '0.875rem',
+                      color: '#10b981',
+                      backgroundColor: 'transparent',
+                      border: '1px solid rgba(16, 185, 129, 0.3)',
+                      transition: 'all 0.3s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = 'rgba(16, 185, 129, 0.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = 'transparent';
+                    }}
                   >
                     🔐 Masuk
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => handleLinkClick('/register')}
-                    style={{...styles.mobileNavLink, color: '#10b981', fontWeight: 600}}
+                  </Link>
+                  
+                  <Link
+                    to="/register"
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '12px',
+                      textDecoration: 'none',
+                      fontWeight: '600',
+                      fontSize: '0.875rem',
+                      color: 'white',
+                      background: 'linear-gradient(135deg, #10b981, #059669)',
+                      border: 'none',
+                      boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)',
+                      transition: 'all 0.3s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
+                    }}
                   >
                     ✨ Daftar
-                  </button>
-                </li>
-              </>
-            )}
-          </ul>
+                  </Link>
+                </div>
+              )}
+
+              {/* Mobile Menu Button */}
+              <button 
+                onClick={toggleMobileMenu}
+                style={{
+                  display: isMobile ? 'flex' : 'none',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '40px',
+                  height: '40px',
+                  backgroundColor: 'transparent',
+                  border: '1px solid rgba(16, 185, 129, 0.2)',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  color: '#374151',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'rgba(16, 185, 129, 0.05)';
+                  e.target.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent';
+                  e.target.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+                }}
+              >
+                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Enhanced Mobile Navigation */}
+      {isMobileMenuOpen && (
+        <div style={{
+          position: 'fixed',
+          top: '70px',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 999,
+          backdropFilter: 'blur(5px)'
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '0 0 24px 24px',
+            padding: '2rem 1rem',
+            margin: '0 1rem',
+            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
+            maxHeight: 'calc(100vh - 100px)',
+            overflowY: 'auto'
+          }}>
+            
+            {/* Mobile Navigation Links */}
+            <div style={{ marginBottom: '2rem' }}>
+              {navLinks.map(link => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => handleLinkClick(link.path)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    textDecoration: 'none',
+                    fontWeight: '500',
+                    fontSize: '1rem',
+                    color: location.pathname === link.path ? '#10b981' : '#374151',
+                    backgroundColor: location.pathname === link.path ? 'rgba(16, 185, 129, 0.1)' : 'transparent',
+                    marginBottom: '0.5rem',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  <span style={{ fontSize: '1.25rem' }}>{link.icon}</span>
+                  <span>{link.label}</span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Mobile Auth Section */}
+            {isAuthenticated ? (
+              <div style={{
+                borderTop: '1px solid rgba(16, 185, 129, 0.1)',
+                paddingTop: '1.5rem'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  marginBottom: '1rem',
+                  padding: '1rem',
+                  backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                  borderRadius: '12px'
+                }}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '10px',
+                    background: user?.role === 'admin' 
+                      ? 'linear-gradient(135deg, #3b82f6, #1d4ed8)' 
+                      : 'linear-gradient(135deg, #10b981, #059669)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '1rem',
+                    fontWeight: 'bold'
+                  }}>
+                    {user?.name?.charAt(0)?.toUpperCase() || user?.nama?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: '600', color: '#1f2937' }}>
+                      {user?.name || user?.nama}
+                    </div>
+                    <div style={{ fontSize: '0.875rem', color: '#6b7280' }}>
+                      {user?.role === 'admin' ? 'Administrator' : 'Member'}
+                    </div>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => handleLinkClick('/profile')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    padding: '1rem',
+                    width: '100%',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: '1rem',
+                    color: '#374151',
+                    marginBottom: '0.5rem',
+                    cursor: 'pointer'
+                  }}
+                >
+                  👤 Profil Saya
+                </button>
+                
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    padding: '1rem',
+                    width: '100%',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: '1rem',
+                    color: '#ef4444',
+                    cursor: 'pointer'
+                  }}
+                >
+                  🚪 Logout
+                </button>
+              </div>
+            ) : (
+              <div style={{
+                borderTop: '1px solid rgba(16, 185, 129, 0.1)',
+                paddingTop: '1.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.75rem'
+              }}>
+                <Link
+                  to="/login"
+                  onClick={() => handleLinkClick('/login')}
+                  style={{
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    textDecoration: 'none',
+                    fontWeight: '500',
+                    fontSize: '1rem',
+                    color: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                    border: '1px solid rgba(16, 185, 129, 0.2)',
+                    textAlign: 'center'
+                  }}
+                >
+                  🔐 Masuk
+                </Link>
+                
+                <Link
+                  to="/register"
+                  onClick={() => handleLinkClick('/register')}
+                  style={{
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                    fontSize: '1rem',
+                    color: 'white',
+                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                    textAlign: 'center',
+                    boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
+                  }}
+                >
+                  ✨ Daftar Sekarang
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

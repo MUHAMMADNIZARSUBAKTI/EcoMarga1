@@ -8,7 +8,7 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import DashboardPage from "./pages/DashboardPage"; // Fixed typo: DashboarPage → DashboardPage
+import DashboardPage from "./pages/DashboarPage";
 import SubmitWastePage from "./pages/SubmitWastePage";
 import HistoryPage from "./pages/HistoryPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -77,7 +77,7 @@ class ErrorBoundary extends React.Component {
             </p>
             
             {/* Show error details in development */}
-            {(import.meta.env ? import.meta.env.MODE === 'development' : false) && this.state.error && (
+            {process.env.NODE_ENV === 'development' && this.state.error && (
               <div style={{
                 background: '#fef2f2',
                 border: '1px solid #fecaca',
@@ -94,6 +94,21 @@ class ErrorBoundary extends React.Component {
                 }}>
                   <strong>Error:</strong> {this.state.error.toString()}
                 </p>
+                {this.state.errorInfo && (
+                  <details style={{ marginTop: '0.5rem' }}>
+                    <summary style={{ cursor: 'pointer', color: '#dc2626' }}>
+                      Stack Trace
+                    </summary>
+                    <pre style={{ 
+                      fontSize: '0.75rem', 
+                      color: '#dc2626',
+                      whiteSpace: 'pre-wrap',
+                      marginTop: '0.5rem'
+                    }}>
+                      {this.state.errorInfo.componentStack}
+                    </pre>
+                  </details>
+                )}
               </div>
             )}
             
@@ -136,7 +151,7 @@ class ErrorBoundary extends React.Component {
                   e.target.style.color = '#10b981';
                 }}
               >
-                🏠 Ke Beranda
+                🏠 Kembali ke Beranda
               </button>
             </div>
           </div>
@@ -148,205 +163,47 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-// 404 Page Component
-const NotFoundPage = () => (
-  <div style={{
-    padding: '4rem 0',
-    textAlign: 'center',
-    minHeight: '60vh',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }}>
-    <div style={{
-      background: 'white',
-      borderRadius: '16px',
-      padding: '3rem',
-      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
-      maxWidth: '500px',
-      width: '100%'
-    }}>
-      <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🌿</div>
-      <h1 style={{ 
-        fontSize: '2rem', 
-        marginBottom: '1rem',
-        color: '#1f2937'
-      }}>
-        404 - Halaman Tidak Ditemukan
-      </h1>
-      <p style={{ 
-        color: '#6b7280', 
-        marginBottom: '2rem',
-        maxWidth: '400px',
-        lineHeight: '1.6'
-      }}>
-        Halaman yang Anda cari tidak tersedia atau mungkin telah dipindahkan.
-      </p>
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <a 
-          href="/" 
-          style={{
-            background: '#10b981',
-            color: 'white',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '0.5rem',
-            textDecoration: 'none',
-            fontWeight: '500',
-            transition: 'all 0.2s ease'
-          }}
-          onMouseEnter={(e) => e.target.style.background = '#059669'}
-          onMouseLeave={(e) => e.target.style.background = '#10b981'}
-        >
-          🏠 Kembali ke Beranda
-        </a>
-        <a 
-          href="/dashboard" 
-          style={{
-            background: 'transparent',
-            color: '#10b981',
-            border: '2px solid #10b981',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '0.5rem',
-            textDecoration: 'none',
-            fontWeight: '500',
-            transition: 'all 0.2s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = '#10b981';
-            e.target.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = 'transparent';
-            e.target.style.color = '#10b981';
-          }}
-        >
-          📊 Dashboard
-        </a>
-      </div>
-    </div>
-  </div>
-);
-
-// Admin Routes Protection
-const AdminRoute = ({ children }) => {
-  return (
-    <ProtectedRoute requireAdmin={true}>
-      {children}
-    </ProtectedRoute>
-  );
-};
-
 function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
         <UserProvider>
           <Router>
-            <div className="app">
+            <div className="min-h-screen bg-gray-50 flex flex-col">
               <Header />
-              <main className="main-content">
+              <main className="flex-grow">
                 <Routes>
-                  {/* Public Routes */}
                   <Route path="/" element={<HomePage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
                   <Route path="/bank-sampah" element={<BankSampah />} />
                   
-                  {/* Protected User Routes */}
-                  <Route 
-                    path="/dashboard" 
-                    element={
-                      <ProtectedRoute>
-                        <DashboardPage />
-                      </ProtectedRoute>
-                    } 
-                  />
-                  <Route 
-                    path="/submit" 
-                    element={
-                      <ProtectedRoute>
-                        <SubmitWastePage />
-                      </ProtectedRoute>
-                    } 
-                  />
-                  <Route 
-                    path="/history" 
-                    element={
-                      <ProtectedRoute>
-                        <HistoryPage />
-                      </ProtectedRoute>
-                    } 
-                  />
-                  <Route 
-                    path="/profile" 
-                    element={
-                      <ProtectedRoute>
-                        <ProfilePage />
-                      </ProtectedRoute>
-                    } 
-                  />
-                  
-                  {/* Admin Routes */}
-                  <Route 
-                    path="/admin" 
-                    element={
-                      <AdminRoute>
-                        <AdminDashboard />
-                      </AdminRoute>
-                    } 
-                  />
-                  <Route 
-                    path="/admin/dashboard" 
-                    element={
-                      <AdminRoute>
-                        <AdminDashboard />
-                      </AdminRoute>
-                    } 
-                  />
-                  <Route 
-                    path="/admin/users" 
-                    element={
-                      <AdminRoute>
-                        <AdminDashboard />
-                      </AdminRoute>
-                    } 
-                  />
-                  <Route 
-                    path="/admin/transactions" 
-                    element={
-                      <AdminRoute>
-                        <HistoryPage />
-                      </AdminRoute>
-                    } 
-                  />
-                  <Route 
-                    path="/admin/bank-sampah" 
-                    element={
-                      <AdminRoute>
-                        <BankSampah />
-                      </AdminRoute>
-                    } 
-                  />
-                  <Route 
-                    path="/admin/reports" 
-                    element={
-                      <AdminRoute>
-                        <AdminDashboard />
-                      </AdminRoute>
-                    } 
-                  />
-                  <Route 
-                    path="/admin/settings" 
-                    element={
-                      <AdminRoute>
-                        <ProfilePage />
-                      </AdminRoute>
-                    } 
-                  />
-                  
-                  {/* Catch-all route untuk 404 */}
-                  <Route path="*" element={<NotFoundPage />} />
+                  {/* Protected Routes */}
+                  <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                      <DashboardPage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/submit" element={
+                    <ProtectedRoute>
+                      <SubmitWastePage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/history" element={
+                    <ProtectedRoute>
+                      <HistoryPage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/profile" element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin" element={
+                    <ProtectedRoute adminOnly>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  } />
                 </Routes>
               </main>
               <Footer />

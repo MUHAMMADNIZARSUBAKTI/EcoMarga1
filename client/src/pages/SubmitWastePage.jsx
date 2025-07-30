@@ -177,70 +177,76 @@ const SubmitWastePage = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!validateForm()) {
+    return;
+  }
 
-    setIsSubmitting(true);
+  setIsSubmitting(true);
 
-    try {
-      // Mock API call - replace with real API
-      await new Promise(resolve => setTimeout(resolve, 2000));
+  try {
+    // Mock API call - replace with real API
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // Mock successful submission
-      const submissionData = {
-        id: Date.now(),
-        user_id: user?.id || 1,
-        waste_type_id: parseInt(formData.wasteTypeId),
-        waste_type: selectedWasteType,
-        weight: parseFloat(formData.weight),
-        total_price: calculatedPrice,
-        location: formData.location,
-        notes: formData.notes,
-        photos: formData.photos,
-        status: 'pending',
-        created_at: new Date().toISOString()
-      };
+    // Mock successful submission
+    const submissionData = {
+      id: Date.now(),
+      user_id: user?.id || 1,
+      waste_type_id: parseInt(formData.wasteTypeId),
+      waste_type: selectedWasteType,
+      weight: parseFloat(formData.weight),
+      total_price: calculatedPrice,
+      location: formData.location,
+      notes: formData.notes,
+      photos: formData.photos,
+      status: 'pending',
+      created_at: new Date().toISOString()
+    };
 
-      console.log('Submission data:', submissionData);
+    console.log('Submission data:', submissionData);
 
-      // Update user stats (if available)
-      if (updateUserStats && typeof updateUserStats === 'function') {
-        try {
-          updateUserStats({
-            total_earnings: calculatedPrice,
-            submission_count: 1,
-            total_weight: parseFloat(formData.weight)
-          });
-        } catch (statsError) {
-          console.warn('Failed to update user stats:', statsError);
-        }
-      }
-
-      setSubmitSuccess(true);
-
-      // Reset form after delay
-      setTimeout(() => {
-        setFormData({
-          wasteTypeId: '',
-          weight: '',
-          location: '',
-          notes: '',
-          photos: []
+    // Update user stats (if available) - dengan improved error handling
+    if (updateUserStats && typeof updateUserStats === 'function') {
+      try {
+        await updateUserStats({
+          total_earnings: calculatedPrice,
+          submission_count: 1,
+          total_weight: parseFloat(formData.weight)
         });
-        setSubmitSuccess(false);
-      }, 3000);
-
-    } catch {
-      console.error('Submission failed');
-      setErrors({ submit: 'Gagal mengirim data. Silakan coba lagi.' });
-    } finally {
-      setIsSubmitting(false);
+        console.log('User stats updated successfully');
+      } catch (statsError) {
+        console.warn('Failed to update user stats:', statsError);
+        // Don't throw error here, just log warning
+      }
+    } else {
+      console.warn('updateUserStats function not available or not a function');
     }
-  };
+
+    setSubmitSuccess(true);
+
+    // Reset form after delay
+    setTimeout(() => {
+      setFormData({
+        wasteTypeId: '',
+        weight: '',
+        location: '',
+        notes: '',
+        photos: []
+      });
+      setSubmitSuccess(false);
+    }, 3000);
+
+  } catch (error) {
+    console.error('Submission failed:', error);
+    setErrors({ 
+      submit: `Gagal mengirim data: ${error.message || 'Silakan coba lagi.'}`
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // Format currency
   const formatCurrency = (amount) => {
