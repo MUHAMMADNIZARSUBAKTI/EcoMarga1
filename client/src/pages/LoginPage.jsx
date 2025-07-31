@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, Eye, EyeOff, AlertCircle, LogIn, Zap } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, AlertCircle, LogIn, Zap, BarChart3, Shield, Leaf } from 'lucide-react';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -9,7 +9,6 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const [showDemo, setShowDemo] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -73,7 +72,7 @@ const LoginPage = () => {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#f8fafc',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -91,262 +90,330 @@ const LoginPage = () => {
         {/* Left Side - Branding & Features */}
         <div style={{
           display: window.innerWidth <= 768 ? 'none' : 'block',
+          color: 'white',
           padding: '2rem'
         }}>
-          <div style={{
-            backgroundColor: '#1e40af',
-            borderRadius: '1rem',
-            padding: '3rem',
-            color: 'white',
-            textAlign: 'center'
-          }}>
-            <div style={{
-              fontSize: '4rem',
-              marginBottom: '1rem'
-            }}>
-              🔐
-            </div>
-            
-            <h1 style={{
-              fontSize: '2.5rem',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              margin: 0
-            }}>
-              Selamat Datang
-            </h1>
-            
-            <p style={{
-              fontSize: '1.125rem',
-              marginBottom: '2rem',
-              opacity: 0.9,
-              lineHeight: 1.6
-            }}>
-              Masuk ke akun EcoMarga Anda dan mulai berkontribusi 
-              untuk lingkungan yang lebih bersih dan berkelanjutan.
-            </p>
-
-            {/* Features */}
+          {/* Welcome Section */}
+          <div style={{ marginBottom: '3rem' }}>
             <div style={{
               display: 'flex',
-              flexDirection: 'column',
+              alignItems: 'center',
               gap: '1rem',
-              marginBottom: '2rem',
-              textAlign: 'left'
+              marginBottom: '2rem'
             }}>
               <div style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.2)',
+                borderRadius: '1rem',
                 padding: '1rem',
-                borderRadius: '0.5rem',
+                backdropFilter: 'blur(10px)'
+              }}>
+                <div style={{ fontSize: '2rem' }}>🔐</div>
+              </div>
+              <div>
+                <h1 style={{
+                  fontSize: '2.5rem',
+                  fontWeight: 'bold',
+                  marginBottom: '0.5rem',
+                  margin: 0
+                }}>
+                  Selamat Datang
+                </h1>
+                <p style={{
+                  fontSize: '1.1rem',
+                  opacity: 0.9,
+                  margin: 0
+                }}>
+                  Masuk ke akun EcoMarga Anda dan mulai berkontribusi untuk lingkungan yang lebih bersih dan berkelanjutan.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Dashboard Preview Cards */}
+          <div style={{ marginBottom: '3rem' }}>
+            <h3 style={{
+              fontSize: '1.25rem',
+              fontWeight: '600',
+              marginBottom: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              📊 Dashboard Personal
+            </h3>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '1rem',
+              padding: '1.5rem',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
+              <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '1rem'
+                gap: '1rem',
+                marginBottom: '1rem'
               }}>
-                <div style={{ fontSize: '1.5rem' }}>📊</div>
+                <BarChart3 size={24} style={{ color: '#10b981' }} />
                 <div>
-                  <div style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>
-                    Dashboard Personal
-                  </div>
                   <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>
                     Pantau progres dan pencapaian Anda
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
 
+          {/* Revenue Preview */}
+          <div style={{ marginBottom: '3rem' }}>
+            <h3 style={{
+              fontSize: '1.25rem',
+              fontWeight: '600',
+              marginBottom: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              💰 Kelola Penghasilan
+            </h3>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '1rem',
+              padding: '1.5rem',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
               <div style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                padding: '1rem',
-                borderRadius: '0.5rem',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1rem'
               }}>
-                <div style={{ fontSize: '1.5rem' }}>💰</div>
+                <div style={{
+                  background: 'rgba(16, 185, 129, 0.2)',
+                  borderRadius: '0.5rem',
+                  padding: '0.5rem'
+                }}>
+                  💸
+                </div>
                 <div>
-                  <div style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>
-                    Kelola Penghasilan
-                  </div>
                   <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>
                     Lacak pendapatan dari sampah yang dikumpulkan
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
 
+          {/* Environmental Impact */}
+          <div>
+            <h3 style={{
+              fontSize: '1.25rem',
+              fontWeight: '600',
+              marginBottom: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              🌱 Dampak Lingkungan
+            </h3>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '1rem',
+              padding: '1.5rem',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
               <div style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                padding: '1rem',
-                borderRadius: '0.5rem',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1rem'
               }}>
-                <div style={{ fontSize: '1.5rem' }}>🌱</div>
+                <Leaf size={24} style={{ color: '#10b981' }} />
                 <div>
-                  <div style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>
-                    Dampak Lingkungan
-                  </div>
                   <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>
                     Lihat kontribusi Anda untuk planet ini
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Stats */}
+          {/* Stats Preview */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '1rem',
+            marginTop: '2rem'
+          }}>
             <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '2rem',
-              marginBottom: '2rem'
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '0.75rem',
+              padding: '1rem',
+              backdropFilter: 'blur(10px)',
+              textAlign: 'center'
             }}>
               <div style={{
-                textAlign: 'center'
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                color: '#10b981',
+                marginBottom: '0.25rem'
               }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>1,294+</div>
-                <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Pengguna Aktif</div>
+                1,234+
               </div>
-              
-              <div style={{
-                textAlign: 'center'
-              }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>5.2 Ton</div>
-                <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>Sampah Terkumpul</div>
+              <div style={{ fontSize: '0.75rem', opacity: 0.8 }}>
+                User
               </div>
             </div>
-
             <div style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              borderRadius: '0.5rem',
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '0.75rem',
               padding: '1rem',
-              fontSize: '0.875rem',
-              opacity: 0.8
+              backdropFilter: 'blur(10px)',
+              textAlign: 'center'
             }}>
-              "Setiap sampah yang Anda kelola dengan bijak adalah 
-              langkah kecil menuju perubahan besar untuk bumi."
+              <div style={{
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                color: '#34d399',
+                marginBottom: '0.25rem'
+              }}>
+                5.2 ton
+              </div>
+              <div style={{ fontSize: '0.75rem', opacity: 0.8 }}>
+                Terkumpul
+              </div>
             </div>
           </div>
         </div>
 
         {/* Right Side - Login Form */}
         <div style={{
-          backgroundColor: 'white',
-          borderRadius: '1rem',
-          padding: '2.5rem',
-          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
-          border: '1px solid #e5e7eb'
+          background: '#ffffff',
+          borderRadius: '1.5rem',
+          padding: '3rem',
+          boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)'
         }}>
-          
           {/* Header */}
-          <div style={{
-            textAlign: 'center',
-            marginBottom: '2rem'
-          }}>
-            <h2 style={{
-              fontSize: '2rem',
-              fontWeight: 'bold',
-              color: '#1f2937',
-              marginBottom: '0.5rem'
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '1rem',
+              marginBottom: '1.5rem'
             }}>
-              Masuk ke EcoMarga
-            </h2>
+              <div style={{
+                background: '#10b981',
+                borderRadius: '1rem',
+                padding: '1rem',
+                color: 'white'
+              }}>
+                🌱
+              </div>
+              <h2 style={{
+                fontSize: '1.75rem',
+                fontWeight: 'bold',
+                color: '#1f2937',
+                margin: 0
+              }}>
+                Masuk ke EcoMarga
+              </h2>
+            </div>
             <p style={{
               color: '#6b7280',
-              fontSize: '1rem'
+              fontSize: '1rem',
+              margin: 0
             }}>
               Selamat datang kembali! Silakan masuk ke akun Anda
             </p>
           </div>
 
-          {/* Demo Login Section */}
+          {/* Demo Accounts */}
           <div style={{
-            backgroundColor: '#fef3c7',
+            background: '#fef3c7',
             border: '1px solid #f59e0b',
-            borderRadius: '0.5rem',
+            borderRadius: '0.75rem',
             padding: '1rem',
             marginBottom: '2rem'
           }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: showDemo ? '1rem' : 0
+              gap: '0.5rem',
+              marginBottom: '1rem'
             }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
+              <Zap size={16} style={{ color: '#f59e0b' }} />
+              <h4 style={{
+                margin: 0,
+                fontSize: '0.875rem',
+                color: '#92400e',
+                fontWeight: '600'
               }}>
-                <Zap size={16} style={{ color: '#f59e0b' }} />
-                <span style={{
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  color: '#92400e'
-                }}>
-                  Demo Mode Tersedia
-                </span>
-              </div>
-              
-              <button
-                onClick={() => setShowDemo(!showDemo)}
-                style={{
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  color: '#f59e0b',
-                  cursor: 'pointer',
-                  fontSize: '0.875rem',
-                  fontWeight: '500'
-                }}
-                disabled={isLoading}
-              >
-                {showDemo ? 'Sembunyikan' : 'Tampilkan'}
-              </button>
+                Demo Mode Tersedia
+              </h4>
             </div>
-
-            {showDemo && (
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.5rem'
-              }}>
-                {demoAccounts.map((account, index) => (
-                  <button
-                    key={index}
-                    onClick={() => loginWithDemo(account)}
-                    disabled={isLoading}
-                    style={{
-                      backgroundColor: 'white',
-                      border: '1px solid #f59e0b',
-                      borderRadius: '0.375rem',
-                      padding: '0.75rem',
-                      fontSize: '0.875rem',
-                      color: '#92400e',
-                      cursor: isLoading ? 'not-allowed' : 'pointer',
-                      textAlign: 'left',
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseEnter={(e) => !isLoading && (e.target.style.backgroundColor = '#fef3c7')}
-                    onMouseLeave={(e) => !isLoading && (e.target.style.backgroundColor = 'white')}
-                  >
-                    <strong>{account.role}:</strong> {account.email}
-                  </button>
-                ))}
-              </div>
-            )}
+            <p style={{
+              fontSize: '0.75rem',
+              color: '#92400e',
+              marginBottom: '1rem',
+              margin: '0 0 1rem 0'
+            }}>
+              Coba fitur EcoMarga tanpa perlu mendaftar:
+            </p>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.5rem'
+            }}>
+              {demoAccounts.map((account, index) => (
+                <button
+                  key={index}
+                  onClick={() => loginWithDemo(account)}
+                  disabled={isLoading}
+                  style={{
+                    background: '#ffffff',
+                    border: '1px solid #f59e0b',
+                    borderRadius: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    cursor: isLoading ? 'not-allowed' : 'pointer',
+                    fontSize: '0.75rem',
+                    color: '#92400e',
+                    fontWeight: '500',
+                    transition: 'all 0.2s ease',
+                    opacity: isLoading ? 0.6 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isLoading) {
+                      e.target.style.background = '#fef3c7';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isLoading) {
+                      e.target.style.background = '#ffffff';
+                    }
+                  }}
+                >
+                  {account.role} - {account.email}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Error Message */}
+          {/* Error Alert */}
           {error && (
             <div style={{
-              backgroundColor: '#fee2e2',
-              border: '1px solid #fca5a5',
+              background: '#fef2f2',
+              border: '1px solid #fecaca',
               borderRadius: '0.5rem',
               padding: '1rem',
               marginBottom: '1.5rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem'
+              gap: '0.5rem'
             }}>
-              <AlertCircle size={20} style={{ color: '#dc2626' }} />
+              <AlertCircle size={16} style={{ color: '#dc2626' }} />
               <span style={{ color: '#dc2626', fontSize: '0.875rem' }}>
                 {error}
               </span>
@@ -355,7 +422,6 @@ const LoginPage = () => {
 
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
-            
             {/* Email Field */}
             <div style={{ marginBottom: '1.5rem' }}>
               <label style={{
@@ -368,34 +434,38 @@ const LoginPage = () => {
                 Email
               </label>
               <div style={{ position: 'relative' }}>
-                <Mail 
-                  size={18} 
-                  style={{
-                    position: 'absolute',
-                    left: '14px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: '#6b7280'
-                  }} 
-                />
+                <Mail size={18} style={{
+                  position: 'absolute',
+                  left: '14px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#6b7280'
+                }} />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Masukkan email Anda"
+                  placeholder="rani123@gmail.com"
                   style={{
                     width: '100%',
-                    padding: '0.875rem 0.875rem 0.875rem 3rem',
+                    padding: '0.875rem 3rem 0.875rem 3rem',
                     border: '2px solid #e5e7eb',
                     borderRadius: '0.5rem',
                     fontSize: '1rem',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.2s ease',
+                    outline: 'none'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#10b981';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#e5e7eb';
+                    e.target.style.boxShadow = 'none';
                   }}
                   required
                   disabled={isLoading}
-                  onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
                 />
               </div>
             </div>
@@ -412,34 +482,38 @@ const LoginPage = () => {
                 Password
               </label>
               <div style={{ position: 'relative' }}>
-                <Lock 
-                  size={18} 
-                  style={{
-                    position: 'absolute',
-                    left: '14px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: '#6b7280'
-                  }} 
-                />
+                <Lock size={18} style={{
+                  position: 'absolute',
+                  left: '14px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#6b7280'
+                }} />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Masukkan password Anda"
+                  placeholder="••••••••"
                   style={{
                     width: '100%',
                     padding: '0.875rem 3rem 0.875rem 3rem',
                     border: '2px solid #e5e7eb',
                     borderRadius: '0.5rem',
                     fontSize: '1rem',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.2s ease',
+                    outline: 'none'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#10b981';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#e5e7eb';
+                    e.target.style.boxShadow = 'none';
                   }}
                   required
                   disabled={isLoading}
-                  onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
                 />
                 <button
                   type="button"
@@ -462,16 +536,17 @@ const LoginPage = () => {
               </div>
             </div>
 
-            {/* Submit Button */}
-            <button 
-              type="submit" 
+            {/* Login Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
               style={{
                 width: '100%',
-                backgroundColor: isLoading ? '#6b7280' : '#1e40af',
+                background: isLoading ? '#9ca3af' : '#10b981',
                 color: 'white',
                 border: 'none',
                 borderRadius: '0.5rem',
-                padding: '0.875rem 1.5rem',
+                padding: '1rem',
                 fontSize: '1rem',
                 fontWeight: '600',
                 cursor: isLoading ? 'not-allowed' : 'pointer',
@@ -482,17 +557,24 @@ const LoginPage = () => {
                 gap: '0.5rem',
                 marginBottom: '1.5rem'
               }}
-              disabled={isLoading}
-              onMouseEnter={(e) => !isLoading && (e.target.style.backgroundColor = '#1d4ed8')}
-              onMouseLeave={(e) => !isLoading && (e.target.style.backgroundColor = '#1e40af')}
+              onMouseEnter={(e) => {
+                if (!isLoading) {
+                  e.target.style.background = '#059669';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isLoading) {
+                  e.target.style.background = '#10b981';
+                }
+              }}
             >
               {isLoading ? (
                 <>
                   <div style={{
                     width: '16px',
                     height: '16px',
-                    border: '2px solid transparent',
-                    borderTop: '2px solid white',
+                    border: '2px solid #ffffff',
+                    borderTop: '2px solid transparent',
                     borderRadius: '50%',
                     animation: 'spin 1s linear infinite'
                   }}></div>
@@ -514,12 +596,18 @@ const LoginPage = () => {
                 margin: 0
               }}>
                 Belum punya akun?{' '}
-                <Link 
-                  to="/register" 
+                <Link
+                  to="/register"
                   style={{
-                    color: '#1e40af',
+                    color: '#10b981',
                     textDecoration: 'none',
-                    fontWeight: '500'
+                    fontWeight: '600'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.textDecoration = 'underline';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.textDecoration = 'none';
                   }}
                 >
                   Daftar di sini
@@ -527,11 +615,66 @@ const LoginPage = () => {
               </p>
             </div>
           </form>
+
+          {/* Additional Info */}
+          <div style={{
+            borderTop: '1px solid #e5e7eb',
+            paddingTop: '1.5rem',
+            marginTop: '2rem'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '2rem',
+              color: '#6b7280',
+              fontSize: '0.75rem'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}>
+                <Shield size={14} />
+                <span>Aman & Terpercaya</span>
+              </div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}>
+                <span>📞</span>
+                <span>info@ecomarga.id</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Add keyframes for loading animation */}
-      <style jsx>{`
+      {/* Quick Links - Mobile Only */}
+      {window.innerWidth <= 768 && (
+        <div style={{
+          position: 'fixed',
+          bottom: '1rem',
+          right: '1rem',
+          background: '#10b981',
+          borderRadius: '1rem',
+          padding: '1rem',
+          color: 'white',
+          fontSize: '0.75rem',
+          zIndex: 1000
+        }}>
+          <div style={{ fontWeight: '600', marginBottom: '0.5rem' }}>
+            Quick Links
+          </div>
+          <div>Beranda</div>
+          <div>Bank Sampah</div>
+          <div>Masuk</div>
+          <div>Daftar</div>
+        </div>
+      )}
+
+      <style>{`
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
