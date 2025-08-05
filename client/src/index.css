@@ -299,6 +299,139 @@ a:hover {
   animation: spin 1s ease-in-out infinite;
 }
 
+/* FORCE HIDE SEMUA JENIS SIDEBAR */
+.sidebar,
+.left-sidebar,
+.navigation-sidebar,
+.app-sidebar,
+.mobile-sidebar,
+.nav-sidebar,
+div[class*="sidebar"],
+nav[class*="sidebar"],
+aside[class*="sidebar"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* RESET LAYOUT - HAPUS GRID YANG MENYEBABKAN SIDEBAR */
+.app-layout,
+.dashboard-layout,
+.main-layout,
+.layout-container {
+  display: block !important;
+  grid-template-columns: none !important;
+  grid-template-areas: none !important;
+}
+
+/* FORCE FULL WIDTH UNTUK MAIN CONTENT */
+.app,
+.main-content,
+.homepage {
+  width: 100% !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  max-width: none !important;
+}
+
+/* RESET BODY DAN HTML */
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  overflow-x: hidden;
+}
+
+/* MENGHILANGKAN MOBILE MENU YANG STUCK */
+.mobile-menu-overlay,
+.mobile-nav-overlay,
+.menu-overlay {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* RESET BODY CLASS YANG MUNGKIN MENYEBABKAN SIDEBAR */
+body.menu-open,
+body.sidebar-open,
+body.nav-open {
+  overflow: auto !important;
+  position: static !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* HOMEPAGE SPECIFIC OVERRIDES */
+.homepage {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* CONTAINER FIXES */
+.container {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+/* HEADER FIXES - PASTIKAN FULL WIDTH */
+header,
+.header {
+  width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* RESPONSIVE FIXES */
+@media (max-width: 768px) {
+  .app,
+  .main-content,
+  .homepage {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .container {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+
+/* FORCE OVERRIDE APAPUN YANG MENYEBABKAN SIDEBAR */
+* {
+  box-sizing: border-box;
+}
+
+*[class*="sidebar"],
+*[class*="nav-left"],
+*[class*="left-nav"] {
+  display: none !important;
+}
+
+/* EMERGENCY CSS UNTUK DEBUGGING */
+.debug-no-sidebar {
+  border: 2px solid red !important;
+  background: yellow !important;
+}
+
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
